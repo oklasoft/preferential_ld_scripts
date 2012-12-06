@@ -1,0 +1,15 @@
+Company	Array	Code
+Affymetrix	GeneChip Human Mapping 500K Array Set	Affy500K
+Affymetrix	Affymetrix HuGeneFocused50K/Affymetrix gene-centric 50K	HuGeneFocused50K
+Affymetrix	Genome-Wide Human SNP Array 6.0	AffyHuman6
+Affymetrix	Genome-Wide Human SNP Array 5.0	AffyHuman5
+Illumina	Infinium HD Human610-Quad BeadChip v1	Illumina610Quad
+Illumina	Infinium HD Human1M-Duo BeadChip v3	Illumina1MDuo
+Illumina	Sentrix HumanHap300 Genotyping BeadChip version 1	Illumina300v1
+Illumina	Infinium HD HumanCNV370-Quad BeadChip v3	IlluminaCNV370Quad
+Illumina	Infinium HD HumanCNV370-Duo BeadChip v1	IlluminaCNV370Duo
+Illumina	Sentrix HumanHap550 BeadChip v3	Illumina550v3
+Illumina	Infinium HD HumanOmni1-Quad BeadChip	IlluminaOmni1-Quad
+Illumina	Infinium HD HumanOmniExpress BeadChip	IlluminaOmniExpress
+Illumina	the common SNPs between Illumina Human1M and Illumina Human610	Illumina1MDuo+Illumina610Quad
+HapMap	HapMapII CEU snps	HapMapIICEU
