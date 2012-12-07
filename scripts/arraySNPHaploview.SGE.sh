@@ -36,7 +36,7 @@ do
 	echo -e "\tsleep 1m\n\tn=\$(wc -l $output/${dirname}_${tag}/arraySNPHaploview.* | perl -ane 'next if (\$F[1] eq \"total\" || \$F[0] != $ntarget); \$i++; print \"\$i\\\n\"' | tail -1 )\n\techo \"\$n\"" >> checkstatus2.SGE.${dirname}_${tag}
 	echo -e "\tif [ \$n -eq $n ]\n\tthen\n\t\tbreak\n\tfi\ndone" >> checkstatus2.SGE.${dirname}_${tag}
 	echo "$pipeline/scripts/collectArraySNPHaploview.sh ${dirname}_${tag} $array $arraysnpcutoff $plink $pipeline" >> checkstatus2.SGE.${dirname}_${tag}
-	echo "qsub $tmpscript/checkstatus2.SGE.${dirname}_${tag}" >> qsub.step2.sh
+	echo "qsub -V $tmpscript/checkstatus2.SGE.${dirname}_${tag}" >> qsub.step2.sh
 	echo "rm $tmpscript/checkstatus2.SGE.${dirname}_${tag} $tmpscript/checkstatus2.SGE.${dirname}_${tag}.log" >> rm.step2.sh
 
 	sub=0
@@ -52,7 +52,7 @@ do
 		echo 'echo "$HOSTNAME"' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo "$pipeline/scripts/arraySNPHaploview.sh $sub $start $stop $array ${dirname}_${tag} $plink $java $Haploview $pipeline" >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
-		echo "qsub $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub" >> qsub.step2.sh
+		echo "qsub -V $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub" >> qsub.step2.sh
 		echo "rm $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub.log" >> rm.step2.sh
 	done < numbers
 done < $snpinfo/$snplist

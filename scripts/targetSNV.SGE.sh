@@ -45,7 +45,7 @@ do
 	echo 'echo "$HOSTNAME"' >> targetSNV.SGE.${dirname}_${tag}
 	echo "$pipeline/scripts/targetSNV.sh $tag $dirname $array \"$name\" $distcutoff $maf $mafcutoff $rarethangwas $hwecutoff $r2cutoff $gwasmafcutoff $gwashwecutoff $plink $java $Haploview $R $pipeline" >> targetSNV.SGE.${dirname}_${tag}
 	echo 'rm -fr /scratch/${USER}_${JOB_ID}' >> targetSNV.SGE.${dirname}_${tag}
-	echo "qsub $tmpscript/targetSNV.SGE.${dirname}_${tag}" >> qsub.step1.sh
+	echo "qsub -V $tmpscript/targetSNV.SGE.${dirname}_${tag}" >> qsub.step1.sh
 	echo "rm $tmpscript/targetSNV.SGE.${dirname}_${tag}" >> rm.step1.sh
 	echo "mv $tmpscript/targetSNV.SGE.${dirname}_${tag}.log $output/${dirname}_${tag}/" >> rm.step1.sh
 done < $input/$snplist

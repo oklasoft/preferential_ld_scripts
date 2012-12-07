@@ -38,7 +38,7 @@ do
 	echo -e "\tsleep 1m\n\tn=\$(ls -al $output/${dirname}_${tag}/SNVrandomLD.* | wc -l | perl -ane 'print \"\$F[0]\"')\n\tm=\$(wc -l $output/${dirname}_${tag}/SNVrandomLD.* | perl -ane 'print \"\$F[0]\" if (\$F[1] eq \"total\")')\n\techo -e \"\$n\\\t\$m\"" >> checkstatus3.SGE.${dirname}_${tag}
 	echo -e "\tif [ \$n -eq $n ] && [ \$m -eq $ntarget ]\n\tthen\n\t\tbreak\n\tfi\ndone" >> checkstatus3.SGE.${dirname}_${tag}	
 	echo "$pipeline/scripts/collectSNVrandom.sh $dirname $tag $randomcutoff $pipeline" >> checkstatus3.SGE.${dirname}_${tag}
-	echo "qsub $tmpscript/checkstatus3.SGE.${dirname}_${tag}" >> qsub.step3.sh
+	echo "qsub -V $tmpscript/checkstatus3.SGE.${dirname}_${tag}" >> qsub.step3.sh
 	echo "rm $tmpscript/checkstatus3.SGE.${dirname}_${tag} $tmpscript/checkstatus3.SGE.${dirname}_${tag}.log" >> rm.step3.sh
  
 	i=0
@@ -54,7 +54,7 @@ do
 		echo 'echo "$HOSTNAME"' >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo "$pipeline/scripts/randomHaploview.sh $i $dirname $tag $nrandom $start $stop $java $Haploview $R $pipeline" >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> randomHaploview.SGE.${dirname}_${tag}.$i
-		echo "qsub $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i" >> qsub.step3.sh
+		echo "qsub -V $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i" >> qsub.step3.sh
 	 
 		echo "rm $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i.log" >> rm.step3.sh
 	done < numbers

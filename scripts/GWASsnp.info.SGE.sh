@@ -26,6 +26,6 @@ echo 'mkdir '"${basedir}"'/${USER}_${JOB_ID}' >> GWASsnp.info.$snplist.SGE
 echo 'echo "$HOSTNAME"' >> GWASsnp.info.$snplist.SGE
 echo "$pipeline/scripts/GWASsnp.info.sh $snplist $plink $pipeline" >> GWASsnp.info.$snplist.SGE
 echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> GWASsnp.info.$snplist.SGE
-qsub GWASsnp.info.$snplist.SGE
+qsub -V GWASsnp.info.$snplist.SGE
 echo "rm -f $tmpscript/GWASsnp.info.$snplist.SGE $tmpscript/GWASsnp.info.$snplist.log" > rm.GWASsnpinfo.sh
 chmod +x rm.GWASsnpinfo.sh

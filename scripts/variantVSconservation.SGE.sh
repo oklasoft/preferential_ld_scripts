@@ -34,7 +34,7 @@ do
 	echo 'echo "$HOSTNAME"' >> variantVSconservation.SGE.${dirname}_${tag}
 	echo "$pipeline/scripts/variantVSconservation.sh ${dirname}_${tag} $chr $phastCons $pcutoff $R $pipeline" >> variantVSconservation.SGE.${dirname}_${tag}
 	echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> variantVSconservation.SGE.${dirname}_${tag}
-	echo "qsub $tmpscript/variantVSconservation.SGE.${dirname}_${tag}" >> qsub.step4.sh
+	echo "qsub -V $tmpscript/variantVSconservation.SGE.${dirname}_${tag}" >> qsub.step4.sh
 	echo "rm $tmpscript/variantVSconservation.SGE.${dirname}_${tag} $tmpscript/variantVSconservation.SGE.${dirname}_${tag}.log" >> rm.step4.sh
 done < $input/$snplist
 chmod +x qsub.step4.sh rm.step4.sh
