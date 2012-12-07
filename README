@@ -1,5 +1,6 @@
 # 1/30/2012 
 The scripts provided here will allow you to run the preferential LD approach in a cluster.
+As copied from http://people.duke.edu/~qz18/preferentialLD.html & then updated to work in our environment
 
 Requirement:
 1. Your variant catalog in binary PED format (SNVcollection.bed, SNVcollection.bim, SNVcollection.fam and SNVcollection.lmiss), which should be put in input/SNVcollection/ directory. SNV should be named as "chr:posAllele1Allele2", eg: 1:291CT. The two alleles are in alphabet order in the SNV name.
@@ -12,30 +13,30 @@ Requirement:
 Example of running the preferential LD approach:
 cd scripts/
 mkdir tmpscript/
-./GWASsnp.info.SGE.sh example_snps # get information for the discovery SNPs (generate example_snps.info in input/GWASsnps); take ~12 mins
+./GWASsnp.info.SGE.sh example_snps email_address full_path_to_tmp_work_dir # get information for the discovery SNPs (generate example_snps.info in input/GWASsnps); take ~12 mins
 ./tmpscript/rm.GWASsnpinfo.sh # remove the SGE script and log file after checking for errors and warnings
 ###############################################################
 ### step 1: collect candidate SNVs around the discovery SNP ###
 ###############################################################
-./targetSNV.SGE.sh example_snps.info 500000 0.15 Y 1e-6 0.005 # generate SGE scripts and qsub.step1.sh
+./targetSNV.SGE.sh example_snps.info 500000 0.15 Y 1e-6 0.005 email_address full_path_to_tmp_work_dir # generate SGE scripts and qsub.step1.sh
 ./tmpscript/qsub.step1.sh # take ~10 mins 
 ./tmpscript/rm.step1.sh # remove the SGE scripts and log files after checking for errors and warnings
 ###################################################################################
 ### step 2: identify candidate SNVs with preferential LD with the discovery SNP ###
 ###################################################################################
-./arraySNPHaploview.SGE.sh example_snps.info 0.05 # generate SGE scripts and qsub.step2.sh
+./arraySNPHaploview.SGE.sh example_snps.info 0.05 email_address full_path_to_tmp_work_dir # generate SGE scripts and qsub.step2.sh
 ./tmpscript/qsub.step2.sh # take ~6 mins if there are enough nodes
 ./tmpscript/rm.step2.sh # remove the SGE scripts and log files after checking for errors and warnings
 ########################################################################################
 ### step 3: identify candidate SNVs whose LD with the discovery SNP is not by chance ###
 ########################################################################################
-./randomHaploview.SGE.sh example_snps.info 2000 0.1 # generate SGE scripts and qsub.step3.sh
+./randomHaploview.SGE.sh example_snps.info 2000 0.1 email_address full_path_to_tmp_work_dir # generate SGE scripts and qsub.step3.sh
 ./tmpscript/qsub.step3.sh # take ~10 mins if there are enough nodes
 ./tmpscript/rm.step3.sh # remove the SGE scripts and log files after checking for errors and warnings
 #########################################
 ### step 4: prioritize candidate SNVs ###
 #########################################
-./variantVSconservation.SGE.sh example_snps.info 0.05 # generate SGE scripts and qsub.step4.sh
+./variantVSconservation.SGE.sh example_snps.info 0.05 email_address full_path_to_tmp_work_dir # generate SGE scripts and qsub.step4.sh
 ./tmpscript/qsub.step4.sh # take 1~2 mins
 ./tmpscript/rm.step4.sh
 
