@@ -1,7 +1,8 @@
-java= # the path for java
-Haploview= # the path for Haploview
-R= # the path for R
-email= # your email address
+java=`which java` # the path for java
+Haploview=`which haploview` # the path for Haploview
+R=`which R` # the path for R
+email=$4 # your email address
+basedir=$5
 
 for var in "$java" "$Haploview" "$R"
 do
@@ -48,11 +49,11 @@ do
 		echo "#$ -S /bin/bash -cwd -l mem_free=4G" >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo "#$ -l scr_free=500M" >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo "#$ -o $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i.log -j y -N r$i.$tag" >> randomHaploview.SGE.${dirname}_${tag}.$i
-		echo 'mkdir /scratch/${USER}_${JOB_ID}' >> randomHaploview.SGE.${dirname}_${tag}.$i
-		echo 'echo "/scratch/${USER}_${JOB_ID}"' >> randomHaploview.SGE.${dirname}_${tag}.$i
+		echo 'mkdir '"${basedir}"'/Haploview.SGE.${dirname}_${tag}.$i
+		echo 'echo "${basedir}/${USER}_${JOB_ID}"' >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo 'echo "$HOSTNAME"' >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo "$pipeline/scripts/randomHaploview.sh $i $dirname $tag $nrandom $start $stop $java $Haploview $R $pipeline" >> randomHaploview.SGE.${dirname}_${tag}.$i
-		echo 'rm -fr /scratch/${USER}_${JOB_ID}' >> randomHaploview.SGE.${dirname}_${tag}.$i
+		echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> randomHaploview.SGE.${dirname}_${tag}.$i
 		echo "qsub $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i" >> qsub.step3.sh
 	 
 		echo "rm $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i $tmpscript/randomHaploview.SGE.${dirname}_${tag}.$i.log" >> rm.step3.sh

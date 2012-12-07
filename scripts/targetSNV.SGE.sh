@@ -1,8 +1,9 @@
-plink= # the path for plink program
-java= # the path for java
-Haploview= # the path for Haploview
-R= # the path for R
-email= # your email address
+plink=`which plink` # the path for plink program
+java=`which java` # the path for java
+Haploview=`which haploview` # the path for Haploview
+R=`which R` # the path for R
+email=$7 # your email address
+basedir=$8
 
 for var in "$plink" "$java" "$Haploview" "$R"
 do
@@ -39,8 +40,8 @@ do
 	echo "#$ -l scr_free=500M" >> targetSNV.SGE.${dirname}_${tag} 
 	echo "#$ -M $email -m e" >> targetSNV.SGE.${dirname}_${tag} # inform me when job is done 
 	echo "#$ -o $tmpscript/targetSNV.SGE.${dirname}_${tag}.log -j y -N s1.${dirname}.$tag" >> targetSNV.SGE.${dirname}_${tag}
-	echo 'mkdir /scratch/${USER}_${JOB_ID}' >> targetSNV.SGE.${dirname}_${tag}
-	echo 'echo "/scratch/${USER}_${JOB_ID}"' >> targetSNV.SGE.${dirname}_${tag}
+	echo 'mkdir '"${basedir}"'/${USER}_${JOB_ID}' >> targetSNV.SGE.${dirname}_${tag}
+	echo 'echo "${basedir}/${USER}_${JOB_ID}"' >> targetSNV.SGE.${dirname}_${tag}
 	echo 'echo "$HOSTNAME"' >> targetSNV.SGE.${dirname}_${tag}
 	echo "$pipeline/scripts/targetSNV.sh $tag $dirname $array \"$name\" $distcutoff $maf $mafcutoff $rarethangwas $hwecutoff $r2cutoff $gwasmafcutoff $gwashwecutoff $plink $java $Haploview $R $pipeline" >> targetSNV.SGE.${dirname}_${tag}
 	echo 'rm -fr /scratch/${USER}_${JOB_ID}' >> targetSNV.SGE.${dirname}_${tag}

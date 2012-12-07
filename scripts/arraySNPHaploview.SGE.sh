@@ -1,7 +1,8 @@
-plink= # the path for plink program
-java= # the path for java
-Haploview= # the path for Haploview
-email= # your email address
+plink=`which plink` # the path for plink program
+java=`which java` # the path for java
+Haploview=`which haploview` # the path for Haploview
+email=$3 # your email address
+basedir=$4
 
 for var in "$plink" "$java" "$Haploview"
 do
@@ -46,11 +47,11 @@ do
 		echo "#$ -S /bin/bash -cwd -l mem_free=4G" >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo "#$ -l scr_free=500M" >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo "#$ -o $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub.log -j y -N $tag.$sub" >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
-		echo 'mkdir /scratch/${USER}_${JOB_ID}' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
-		echo 'echo "/scratch/${USER}_${JOB_ID}"' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
+		echo 'mkdir '"${basedir}"'/${USER}_${JOB_ID}' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
+		echo 'echo "${basedir}/${USER}_${JOB_ID}"' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo 'echo "$HOSTNAME"' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo "$pipeline/scripts/arraySNPHaploview.sh $sub $start $stop $array ${dirname}_${tag} $plink $java $Haploview $pipeline" >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
-		echo 'rm -fr /scratch/${USER}_${JOB_ID}' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
+		echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> arraySNPHaploview.SGE.${dirname}_${tag}.$sub
 		echo "qsub $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub" >> qsub.step2.sh
 		echo "rm $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub $tmpscript/arraySNPHaploview.SGE.${dirname}_${tag}.$sub.log" >> rm.step2.sh
 	done < numbers

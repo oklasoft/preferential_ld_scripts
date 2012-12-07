@@ -1,6 +1,7 @@
-R= # the path for R
-phastCons= # the directory contains phastCons scores
-email= # your email address
+R=`which R` # the path for R
+phastCons=$3 # the directory contains phastCons scores
+email=$4 # your email address
+basedir=$5
 
 for var in "$R" "$phastCons"
 do
@@ -28,11 +29,11 @@ do
 	echo "#$ -l scr_free=2M" >> variantVSconservation.SGE.${dirname}_${tag}
 	echo "#$ -M $email -m e" >> variantVSconservation.SGE.${dirname}_${tag} # inform me when job is done 
 	echo "#$ -o $tmpscript/variantVSconservation.SGE.${dirname}_${tag}.log -j y -N s4.${dirname}.$tag" >> variantVSconservation.SGE.${dirname}_${tag}
-	echo 'mkdir /scratch/${USER}_${JOB_ID}' >> variantVSconservation.SGE.${dirname}_${tag}
-	echo 'echo "/scratch/${USER}_${JOB_ID}"' >> variantVSconservation.SGE.${dirname}_${tag}
+	echo 'mkdir '"${basedir}"'/${USER}_${JOB_ID}' >> variantVSconservation.SGE.${dirname}_${tag}
+	echo 'echo "${basedir}/${USER}_${JOB_ID}"' >> variantVSconservation.SGE.${dirname}_${tag}
 	echo 'echo "$HOSTNAME"' >> variantVSconservation.SGE.${dirname}_${tag}
 	echo "$pipeline/scripts/variantVSconservation.sh ${dirname}_${tag} $chr $phastCons $pcutoff $R $pipeline" >> variantVSconservation.SGE.${dirname}_${tag}
-	echo 'rm -fr /scratch/${USER}_${JOB_ID}' >> variantVSconservation.SGE.${dirname}_${tag}
+	echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> variantVSconservation.SGE.${dirname}_${tag}
 	echo "qsub $tmpscript/variantVSconservation.SGE.${dirname}_${tag}" >> qsub.step4.sh
 	echo "rm $tmpscript/variantVSconservation.SGE.${dirname}_${tag} $tmpscript/variantVSconservation.SGE.${dirname}_${tag}.log" >> rm.step4.sh
 done < $input/$snplist

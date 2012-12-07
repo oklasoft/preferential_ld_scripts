@@ -1,5 +1,6 @@
-plink= # the path for plink program
-email= # your email address
+plink=`which plink` # the path for plink program
+email=$2 # your email address
+basedir=$3
 
 if [ ! -e "$plink" ]
 then
@@ -21,10 +22,10 @@ echo "#!/bin/bash" > GWASsnp.info.$snplist.SGE
 echo "#$ -S /bin/bash -cwd -l mem_free=4G" >> GWASsnp.info.$snplist.SGE
 echo "#$ -M $email -m e" >> GWASsnp.info.$snplist.SGE
 echo "#$ -o $tmpscript/GWASsnp.info.$snplist.log -j y -N i$snplist" >> GWASsnp.info.$snplist.SGE
-echo 'mkdir /scratch/${USER}_${JOB_ID}' >> GWASsnp.info.$snplist.SGE
+echo 'mkdir '"${basedir}"'/${USER}_${JOB_ID}' >> GWASsnp.info.$snplist.SGE
 echo 'echo "$HOSTNAME"' >> GWASsnp.info.$snplist.SGE
 echo "$pipeline/scripts/GWASsnp.info.sh $snplist $plink $pipeline" >> GWASsnp.info.$snplist.SGE
-echo 'rm -fr /scratch/${USER}_${JOB_ID}' >> GWASsnp.info.$snplist.SGE
+echo 'rm -fr '"${basedir}"'/${USER}_${JOB_ID}' >> GWASsnp.info.$snplist.SGE
 qsub GWASsnp.info.$snplist.SGE
 echo "rm -f $tmpscript/GWASsnp.info.$snplist.SGE $tmpscript/GWASsnp.info.$snplist.log" > rm.GWASsnpinfo.sh
 chmod +x rm.GWASsnpinfo.sh
